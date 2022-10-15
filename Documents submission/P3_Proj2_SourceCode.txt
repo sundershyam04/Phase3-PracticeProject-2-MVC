@@ -1,0 +1,983 @@
+			         MVC CRUD
+
+------------------------------------------------------------------------------------
+Github link: https://github.com/sundershyam04/Phase3-PracticeProject-2-MVC.git
+-----------------------------------------------------------------------------------
+Database : School management 
+Table	 : Student, Class, Subject
+
+------------------ADMIN CONTROLLER CODE----------------
+
+using SchoolMVC_CRUD.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace SchoolMVC_CRUD.Controllers
+{
+    public class AdminController : Controller
+    {
+
+        School_ManagementEntities scl = null;
+
+        public ActionResult StartPage()
+        {
+            return View();
+        }
+
+        public AdminController()
+        {
+            scl = new School_ManagementEntities();
+        }
+
+        // GET: Admin
+        public ActionResult Student()
+        {
+            List<Student> students = new List<Student>();
+            foreach (var item in scl.Students)
+            {
+                students.Add(item);
+            }
+           
+            return View(students);
+        }
+        // GET: Admin/CreateStudent
+        public ActionResult CreateStudent()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateStudent(Student s)
+        {
+
+            scl.Students.Add(s);
+            scl.SaveChanges();
+            return RedirectToAction("Student");
+           
+        }
+        // first find obj pertaining to id
+
+        //GET: Admin/EditStudent/2
+        public ActionResult EditStudent(int id)
+        {
+            Student found = scl.Students.ToList().Find(s => s.Student_id == id);
+            return View(found);
+        }
+
+        [HttpPost]
+        public ActionResult EditStudent(int id, FormCollection f)
+        {
+            try
+            {
+                Student found = scl.Students.ToList().Find(s => s.Student_id == id);
+
+                found.Student_name = Request.Form["Student_name"];
+
+                found.Age = int.Parse(Request["Age"]);
+
+                found.Blood_group = Request["Blood_group"];
+
+                found.Father_s_Name = Request["Father_s_Name"];
+
+                found.Mother_s_Name = Request["Mother_s_Name"];
+
+                found.Grade = int.Parse(Request["Grade"]);
+
+                found.Subject_Id = int.Parse(Request["Subject_Id"]);
+
+                scl.SaveChanges();
+
+                return RedirectToAction("Student");
+            }
+            catch(Exception e)
+            {
+                return View();
+            }
+
+        }
+
+        //Showdetails GET : Admin/DetailsStudent
+        public ActionResult DetailsStudent(int id)
+        {
+            try
+            {
+                Student fnd = scl.Students.ToList().Find(s => s.Student_id == id);
+
+
+                return View(fnd);
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        //Delete
+
+        public ActionResult DeleteStudent(int id)
+        {
+            try
+            {
+                Student fnd = scl.Students.ToList().Find(s => s.Student_id == id);
+                return View(fnd);
+              
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        [HttpPost]
+
+        public ActionResult DeleteStudent(int id,Student del)
+        {
+            try
+            {
+                Student fnd = scl.Students.ToList().Find(s => s.Student_id == id);
+                scl.Students.Remove(fnd);
+                scl.SaveChanges();
+                return RedirectToAction("Student");
+
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+        //              -------- CLass table ----------
+
+        public ActionResult Class()
+        {
+            List<@class> classlist = new List<@class>();
+            foreach (var item in scl.classes)
+            {
+                classlist.Add(item);
+            }
+
+            return View(classlist);
+        }
+
+        // GET: Admin/CreateClass
+        public ActionResult CreateClass()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateClass(@class c)
+        {
+
+            scl.classes.Add(c);
+            scl.SaveChanges();
+            return RedirectToAction("Class");
+
+        }
+
+        // GET: Admin/EditClass/6
+
+        public ActionResult EditClass(int id)
+        {
+            @class found = scl.classes.ToList().Find(s => s.Grade == id);
+            return View(found);
+        }
+
+        [HttpPost]
+        public ActionResult EditClass(int id, @class c)
+        {
+            try
+            {
+                @class found = scl.classes.ToList().Find(s => s.Grade == id);
+
+                scl.classes.Remove(found);
+
+                scl.classes.Add(c);
+
+                scl.SaveChanges();
+
+                return RedirectToAction("Class");
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+
+        }
+
+        //Showdetails GET : Admin/DetailsClass
+        public ActionResult DetailsClass(int id)
+        {
+            try
+            {
+                @class fnd = scl.classes.ToList().Find(s => s.Grade == id);
+
+
+                return View(fnd);
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        //Delete class
+
+        public ActionResult DeleteClass(int id)
+        {
+            try
+            {
+                @class fnd = scl.classes.ToList().Find(s => s.Grade== id);
+                return View(fnd);
+
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        [HttpPost]
+
+        public ActionResult DeleteClass(int id, Student del)
+        {
+            try
+            {
+                @class fnd = scl.classes.ToList().Find(s => s.Grade == id);
+                scl.classes.Remove(fnd);
+                scl.SaveChanges();
+                return RedirectToAction("Class");
+
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        //              -------- Subject table ----------
+
+
+        public ActionResult Subject()
+        {
+            List<Subject> sublist = new List<Subject>();
+            foreach (var item in scl.Subjects)
+            {
+                sublist.Add(item);
+            }
+
+            return View(sublist);
+        }
+        //Create subject 
+        public ActionResult CreateSubject()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateSubject(Subject c)
+        {
+
+            scl.Subjects.Add(c);
+            scl.SaveChanges();
+            return RedirectToAction("Subject");
+
+        }
+
+        //Edit subject
+
+        public ActionResult EditSubject(int id)
+        {
+            Subject found = scl.Subjects.ToList().Find(s => s.Subject_Id == id);
+            return View(found);
+        }
+
+        [HttpPost]
+        public ActionResult EditSubject(int id, Subject s)
+        {
+            try
+            {
+                Subject found = scl.Subjects.ToList().Find(p => p.Subject_Id == id);
+
+                scl.Subjects.Remove(found);
+
+                scl.Subjects.Add(s);
+
+                scl.SaveChanges();
+
+                return RedirectToAction("Subject");
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message, "Error");
+            }
+
+        }
+
+        // Details subject GET only
+
+        public ActionResult DetailsSubject(int id)
+        {
+            Subject found = scl.Subjects.ToList().Find(p => p.Subject_Id == id);
+
+            return View(found);
+        }
+
+
+        //Delete Subject
+
+        public ActionResult DeleteSubject(int id)
+        {
+            try
+            {
+                Subject found = scl.Subjects.ToList().Find(p => p.Subject_Id == id);
+                return View(found);
+
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        [HttpPost]
+
+        public ActionResult DeleteSubject(int id, Subject del)
+        {
+            try
+            {
+                Subject found = scl.Subjects.ToList().Find(p => p.Subject_Id == id);
+                scl.Subjects.Remove(found);
+                scl.SaveChanges();
+                return RedirectToAction("Subject");
+
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+
+    }
+}
+
+
+---------------------ADMIN VIEW-------------------------
+Startpage.cshtml
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+   
+    <meta name="viewport" content="width=device-width" />
+    <title>StartPage</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <style>
+        .center {
+         
+            padding: 70px 0;
+            text-align: center;
+            width: 800px;
+            vertical-align: middle;
+            margin: 0 auto;
+           
+        }
+        h2{
+
+            color : darkgreen ; 
+        }
+        body{
+            background-color : burlywood;
+        }
+    </style>
+</head>
+<body>
+   <center>
+       <h2>School Management - StartPage </h2>
+        <h4>MVC project</h4>
+    </center> 
+    <div>
+        <div class="center">
+            <div class="col-md-4">
+                <button class="btn btn-success btn-lg" type="button" onclick="location.href = '@Url.Action("Student","Admin")'">Student</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-success btn-lg " type="button" onclick="location.href = '@Url.Action("Class","Admin")'">Class</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-success btn-lg" type="button" onclick="location.href = '@Url.Action("Subject","Admin")'">Subject</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+--------------------STUDENT----------------
+Student.cshtml
+
+@model IEnumerable<SchoolMVC_CRUD.Models.Student>
+
+@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+
+}
+
+<h2>Student</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateStudent")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Student_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Blood_group)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Father_s_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mother_s_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.@class.Grade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject.Subject_Id)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Student_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Age)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Blood_group)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Father_s_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mother_s_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.@class.Grade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subject.Subject_Id)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditStudent", new { id=item.Student_id }) |
+            @Html.ActionLink("Details", "DetailsStudent", new { id=item.Student_id }) |
+            @Html.ActionLink("Delete", "DeleteStudent", new { id=item.Student_id })
+        </td>
+    </tr>
+}
+
+</table>
+
+----------------
+
+
+CreateStudent.cshtml
+
+@model SchoolMVC_CRUD.Models.Student
+
+@{
+    ViewBag.Title = "CreateStudent";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>CreateStudent</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Student</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Student_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Student_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Student_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Student_name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Student_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Student_name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Blood_group, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Blood_group, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Blood_group, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Father_s_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Father_s_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Father_s_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mother_s_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mother_s_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Mother_s_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Grade, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Grade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Subject_Id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Subject_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Student")
+</div>
+----------
+
+EditStudent.cshtml
+
+@model SchoolMVC_CRUD.Models.Student
+
+@{
+    ViewBag.Title = "EditStudent";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>EditStudent</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Student</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Student_id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Student_name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Student_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Student_name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Blood_group, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Blood_group, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Blood_group, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Father_s_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Father_s_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Father_s_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mother_s_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mother_s_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Mother_s_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Grade, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Grade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Subject_Id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Subject_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Student")
+</div>
+
+
+-------
+
+DetailsStudent.cshtml
+
+
+@model SchoolMVC_CRUD.Models.Student
+
+@{
+    ViewBag.Title = "DetailsStudents";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>DetailsStudent</h2>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Student_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Blood_group)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Blood_group)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Father_s_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Father_s_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mother_s_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mother_s_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.@class.Grade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.@class.Grade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject.Subject_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject.Subject_Id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditStudent", new { id = Model.Student_id }) |
+    @Html.ActionLink("Back to List", "Student")
+</p>
+------------
+DeleteStudent.cshtml
+
+@model SchoolMVC_CRUD.Models.Student
+
+@{
+    ViewBag.Title = "DeleteStudent";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>DeleteStudent</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Student_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Blood_group)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Blood_group)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Father_s_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Father_s_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mother_s_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mother_s_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.@class.Grade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.@class.Grade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject.Subject_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject.Subject_Id)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Student")
+        </div>
+    }
+</div>
+-----------------------------------------------------
+MODELS 
+
+Model.Context.cs
+		
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated from a template.
+//
+//     Manual changes to this file may cause unexpected behavior in your application.
+//     Manual changes to this file will be overwritten if the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+namespace SchoolMVC_CRUD.Models
+{
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    
+    public partial class School_ManagementEntities : DbContext
+    {
+        public School_ManagementEntities()
+            : base("name=School_ManagementEntities")
+        {
+        }
+    
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            throw new UnintentionalCodeFirstException();
+        }
+    
+        public virtual DbSet<@class> classes { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
+    }
+}
+-----
+class 
+
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated from a template.
+//
+//     Manual changes to this file may cause unexpected behavior in your application.
+//     Manual changes to this file will be overwritten if the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+namespace SchoolMVC_CRUD.Models
+{
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class @class
+    {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public @class()
+        {
+            this.Students = new HashSet<Student>();
+        }
+    
+        public int Grade { get; set; }
+        public Nullable<int> ClassRoom { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Student> Students { get; set; }
+    }
+}
+
+---------
+student
+
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated from a template.
+//
+//     Manual changes to this file may cause unexpected behavior in your application.
+//     Manual changes to this file will be overwritten if the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+namespace SchoolMVC_CRUD.Models
+{
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class Student
+    {
+        public int Student_id { get; set; }
+        public string Student_name { get; set; }
+        public int Age { get; set; }
+        public string Blood_group { get; set; }
+        public string Father_s_Name { get; set; }
+        public string Mother_s_Name { get; set; }
+        public int Grade { get; set; }
+        public Nullable<int> Subject_Id { get; set; }
+    
+        public virtual @class @class { get; set; }
+        public virtual Subject Subject { get; set; }
+    }
+}
+---
+subject
+
+
+namespace SchoolMVC_CRUD.Models
+{
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class Subject
+    {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Subject()
+        {
+            this.Students = new HashSet<Student>();
+        }
+    
+        public int Subject_Id { get; set; }
+        public string Subject_name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Student> Students { get; set; }
+    }
+}

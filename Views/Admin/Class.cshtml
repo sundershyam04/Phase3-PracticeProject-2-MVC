@@ -1,0 +1,41 @@
+﻿@model IEnumerable<SchoolMVC_CRUD.Models.@class>
+@{
+    ViewBag.Title = "Class";
+    Layout = "~/Views/Shared/_ClassLayout.cshtml";
+}
+
+<h2>Class</h2>
+
+
+<p>
+    @Html.ActionLink("Create New", "CreateClass")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Grade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassRoom)
+        </th>
+     
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassRoom)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditClass", new { id = item.Grade }) |
+                @Html.ActionLink("Details", "DetailsClass", new { id = item.Grade }) |
+                @Html.ActionLink("Delete", "DeleteClass", new { id = item.Grade })
+            </td>
+        </tr>
+    }
+
+</table>

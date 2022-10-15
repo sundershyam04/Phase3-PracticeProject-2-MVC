@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="class">
+    <Key>
+      <PropertyRef Name="Grade" />
+    </Key>
+    <Property Name="Grade" Type="int" Nullable="false" />
+    <Property Name="ClassRoom" Type="int" />
+  </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="Student id" />
+    </Key>
+    <Property Name="Student id" Type="int" Nullable="false" />
+    <Property Name="Student name" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Age" Type="int" Nullable="false" />
+    <Property Name="Blood group" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="Father's Name" Type="nvarchar" MaxLength="20" />
+    <Property Name="Mother's Name" Type="nvarchar" MaxLength="20" />
+    <Property Name="Grade" Type="int" Nullable="false" />
+    <Property Name="Subject Id" Type="int" />
+  </EntityType>
+  <EntityType Name="Subjects">
+    <Key>
+      <PropertyRef Name="Subject Id" />
+    </Key>
+    <Property Name="Subject Id" Type="int" Nullable="false" />
+    <Property Name="Subject name" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Students__Grade__1FCDBCEB">
+    <End Role="class" Type="Self.class" Multiplicity="1" />
+    <End Role="Students" Type="Self.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="class">
+        <PropertyRef Name="Grade" />
+      </Principal>
+      <Dependent Role="Students">
+        <PropertyRef Name="Grade" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Students_Subjects">
+    <End Role="Subjects" Type="Self.Subjects" Multiplicity="0..1" />
+    <End Role="Students" Type="Self.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subjects">
+        <PropertyRef Name="Subject Id" />
+      </Principal>
+      <Dependent Role="Students">
+        <PropertyRef Name="Subject Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="class" EntityType="Self.class" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Students__Grade__1FCDBCEB" Association="Self.FK__Students__Grade__1FCDBCEB">
+      <End Role="class" EntitySet="class" />
+      <End Role="Students" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Students_Subjects" Association="Self.FK_Students_Subjects">
+      <End Role="Subjects" EntitySet="Subjects" />
+      <End Role="Students" EntitySet="Students" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

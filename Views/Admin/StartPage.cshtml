@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+   
+    <meta name="viewport" content="width=device-width" />
+    <title>StartPage</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <style>
+        .center {
+         
+            padding: 70px 0;
+            text-align: center;
+            width: 800px;
+            vertical-align: middle;
+            margin: 0 auto;
+           
+        }
+        h2{
+
+            color : darkgreen ; 
+        }
+        body{
+            background-color : burlywood;
+        }
+    </style>
+</head>
+<body>
+   <center>
+       <h2>School Management - StartPage </h2>
+        <h4>MVC project</h4>
+    </center> 
+    <div>
+        <div class="center">
+            <div class="col-md-4">
+                <button class="btn btn-success btn-lg" type="button" onclick="location.href = '@Url.Action("Student","Admin")'">Student</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-success btn-lg " type="button" onclick="location.href = '@Url.Action("Class","Admin")'">Class</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-success btn-lg" type="button" onclick="location.href = '@Url.Action("Subject","Admin")'">Subject</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

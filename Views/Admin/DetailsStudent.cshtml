@@ -1,0 +1,75 @@
+﻿@model SchoolMVC_CRUD.Models.Student
+
+@{
+    ViewBag.Title = "DetailsStudents";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>DetailsStudent</h2>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Student_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Blood_group)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Blood_group)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Father_s_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Father_s_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mother_s_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mother_s_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.@class.Grade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.@class.Grade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject.Subject_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject.Subject_Id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditStudent", new { id = Model.Student_id }) |
+    @Html.ActionLink("Back to List", "Student")
+</p>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="School_ManagementEntities">
+    <EntitySetMapping Name="classes">
+      <EntityTypeMapping TypeName="Model.class">
+        <MappingFragment StoreEntitySet="class">
+          <ScalarProperty Name="Grade" ColumnName="Grade" />
+          <ScalarProperty Name="ClassRoom" ColumnName="ClassRoom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Students">
+      <EntityTypeMapping TypeName="Model.Student">
+        <MappingFragment StoreEntitySet="Students">
+          <ScalarProperty Name="Student_id" ColumnName="Student id" />
+          <ScalarProperty Name="Student_name" ColumnName="Student name" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="Blood_group" ColumnName="Blood group" />
+          <ScalarProperty Name="Father_s_Name" ColumnName="Father's Name" />
+          <ScalarProperty Name="Mother_s_Name" ColumnName="Mother's Name" />
+          <ScalarProperty Name="Grade" ColumnName="Grade" />
+          <ScalarProperty Name="Subject_Id" ColumnName="Subject Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subjects">
+      <EntityTypeMapping TypeName="Model.Subject">
+        <MappingFragment StoreEntitySet="Subjects">
+          <ScalarProperty Name="Subject_Id" ColumnName="Subject Id" />
+          <ScalarProperty Name="Subject_name" ColumnName="Subject name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

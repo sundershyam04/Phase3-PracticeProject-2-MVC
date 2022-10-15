@@ -1,0 +1,28 @@
+			         MVC CRUD
+
+------------------------------------------------------------------------------------
+Github link: https://github.com/sundershyam04/Phase3-PracticeProject-2-MVC.git
+-----------------------------------------------------------------------------------
+Database : School management 
+Table	 : Student, Class, Subject
+
+1) Creating Project: An ASP.NET Web app with MVC template is choosen 
+
+2) Accessing Database :  Used Entity framework Database first approach to access database and perform CRUD operations.
+
+3) Model : Created ADO.NET Entity data model file in Models folder -> DBFIRST -> Connecting the SCHOOL MANAGEMENT Database .Entity framework is installed and necessary connection strings are added automatically in Web.config
+
+->Database context cs file is created which contains collection of tables in DB 
+->separate classes are created for each field of tables | i.e, Student Subject class
+
+4) Controller : Admin controller created to perform CRUD operationos on database tables
+
+for Student table: *Student action created for list data in the table with crud links ( to retrieve or view list after updation)
+				   *CreateStudent, EditStudent, DetailsStudent, DeleteStudent action methods are created to perform crud operations on Student table
+similar procedures are carried out for Subject and class tables
+
+5)View : IN Admin view folder, views for the respective actions are created (using templates scaffolding and manual)
+
+=> A startup page action in admincontroller is created to navigate to Student, Subject, Class Tables
+
+Thus, CRUD operations are performed on all tables of School Management database
